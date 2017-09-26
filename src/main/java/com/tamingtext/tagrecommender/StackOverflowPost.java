@@ -25,158 +25,158 @@ package com.tamingtext.tagrecommender;
 import java.util.Collection;
 
 public class StackOverflowPost {
-  private int id;
-  private String title;
-  private String body;
-  private Collection<String> tags;
-  private String creationDate;
-  private int parentId;
-  private int postTypeId;
-  private int acceptedAnswerId;
-  private int ownerUserId;
-  private int score;
-  private int viewCount;
-  private int answerCount;
-  private int commentCount;
-  private int favoriteCount;
-  
-  public StackOverflowPost() {
-    reInit();
-  }
-  
-  public void reInit() {
-    id = 0;
-    title = null;
-    body  = null;
-    tags  = null;
-    creationDate = null;
-    parentId = 0;
-    postTypeId = 0;
-    acceptedAnswerId = 0;
-    ownerUserId = 0;
-    score = 0;
-    viewCount = 0;
-    answerCount = 0;
-    commentCount = 0;
-    favoriteCount = 0;
-  }
+	private int id;
+	private String title;
+	private String body;
+	private Collection<String> tags;
+	private String creationDate;
+	private int parentId;
+	private int postTypeId;
+	private int acceptedAnswerId;
+	private int ownerUserId;
+	private int score;
+	private int viewCount;
+	private int answerCount;
+	private int commentCount;
+	private int favoriteCount;
 
-  public int getId() {
-    return id;
-  }
+	public StackOverflowPost() {
+		reInit();
+	}
 
-  public void setId(int id) {
-    this.id = id;
-  }
+	public void reInit() {
+		id = 0;
+		title = null;
+		body = null;
+		tags = null;
+		creationDate = null;
+		parentId = 0;
+		postTypeId = 0;
+		acceptedAnswerId = 0;
+		ownerUserId = 0;
+		score = 0;
+		viewCount = 0;
+		answerCount = 0;
+		commentCount = 0;
+		favoriteCount = 0;
+	}
 
-  public String getTitle() {
-    return title;
-  }
+	public int getId() {
+		return id;
+	}
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-  public String getBody() {
-    return body;
-  }
+	public String getTitle() {
+		return title;
+	}
 
-  public void setBody(String body) {
-    this.body = body;
-  }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-  public Collection<String> getTags() {
-    return tags;
-  }
+	public String getBody() {
+		return body;
+	}
 
-  public void setTags(Collection<String> tags) {
-    this.tags = tags;
-  }
+	public void setBody(String body) {
+		this.body = body;
+	}
 
-  public String getCreationDate() {
-    return creationDate;
-  }
+	public Collection<String> getTags() {
+		return tags;
+	}
 
-  public void setCreationDate(String creationDate) {
-    this.creationDate = creationDate;
-  }
+	public void setTags(Collection<String> tags) {
+		this.tags = tags;
+	}
 
-  public int getParentId() {
-    return parentId;
-  }
+	public String getCreationDate() {
+		return creationDate;
+	}
 
-  public void setParentId(int parentId) {
-    this.parentId = parentId;
-  }
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
 
-  public int getPostTypeId() {
-    return postTypeId;
-  }
+	public int getParentId() {
+		return parentId;
+	}
 
-  public void setPostTypeId(int postTypeId) {
-    this.postTypeId = postTypeId;
-  }
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
 
-  public int getAcceptedAnswerId() {
-    return acceptedAnswerId;
-  }
+	public int getPostTypeId() {
+		return postTypeId;
+	}
 
-  public void setAcceptedAnswerId(int acceptedAnswerId) {
-    this.acceptedAnswerId = acceptedAnswerId;
-  }
+	public void setPostTypeId(int postTypeId) {
+		this.postTypeId = postTypeId;
+	}
 
-  public int getOwnerUserId() {
-    return ownerUserId;
-  }
+	public int getAcceptedAnswerId() {
+		return acceptedAnswerId;
+	}
 
-  public void setOwnerUserId(int ownerUserId) {
-    this.ownerUserId = ownerUserId;
-  }
+	public void setAcceptedAnswerId(int acceptedAnswerId) {
+		this.acceptedAnswerId = acceptedAnswerId;
+	}
 
-  public int getScore() {
-    return score;
-  }
+	public int getOwnerUserId() {
+		return ownerUserId;
+	}
 
-  public void setScore(int score) {
-    this.score = score;
-  }
+	public void setOwnerUserId(int ownerUserId) {
+		this.ownerUserId = ownerUserId;
+	}
 
-  public int getViewCount() {
-    return viewCount;
-  }
+	public int getScore() {
+		return score;
+	}
 
-  public void setViewCount(int viewCount) {
-    this.viewCount = viewCount;
-  }
+	public void setScore(int score) {
+		this.score = score;
+	}
 
-  public int getAnswerCount() {
-    return answerCount;
-  }
+	public int getViewCount() {
+		return viewCount;
+	}
 
-  public void setAnswerCount(int answerCount) {
-    this.answerCount = answerCount;
-  }
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
+	}
 
-  public int getCommentCount() {
-    return commentCount;
-  }
+	public int getAnswerCount() {
+		return answerCount;
+	}
 
-  public void setCommentCount(int commentCount) {
-    this.commentCount = commentCount;
-  }
+	public void setAnswerCount(int answerCount) {
+		this.answerCount = answerCount;
+	}
 
-  public int getFavoriteCount() {
-    return favoriteCount;
-  }
+	public int getCommentCount() {
+		return commentCount;
+	}
 
-  public void setFavoriteCount(int favoriteCount) {
-    this.favoriteCount = favoriteCount;
-  }
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
 
-  @Override
-  public String toString() {
-    return "StackOverflowPost [id=" + id +  ", title='" + title + "', tags=" + tags + "]";
-  }
+	public int getFavoriteCount() {
+		return favoriteCount;
+	}
 
-  
+	public void setFavoriteCount(int favoriteCount) {
+		this.favoriteCount = favoriteCount;
+	}
+
+	@Override
+	public String toString() {
+		return "StackOverflowPost [id=" + id + ", title='" + title + "', tags="
+				+ tags + "]";
+	}
+
 }

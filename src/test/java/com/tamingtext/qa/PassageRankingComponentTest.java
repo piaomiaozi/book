@@ -19,7 +19,6 @@
 
 package com.tamingtext.qa;
 
-
 import com.tamingtext.TTTestCaseJ4;
 import org.apache.solr.SolrTestCaseJ4;
 import org.junit.BeforeClass;
@@ -29,35 +28,35 @@ import org.junit.Test;
  *
  *
  **/
-public class PassageRankingComponentTest  extends TTTestCaseJ4 {
-  @BeforeClass
-  public static void beforeClass() throws Exception {
-    initCore("solrconfig-qa-prc.xml",
-        "schema-qa.xml");
+public class PassageRankingComponentTest extends TTTestCaseJ4 {
+	@BeforeClass
+	public static void beforeClass() throws Exception {
+		initCore("solrconfig-qa-prc.xml", "schema-qa.xml");
 
+	}
 
-  }
+	@Test
+	public void testComponent() throws Exception {
+		assertU("Add a doc to be ranked",
+				adoc("id", "1234", "details",
+						"Michael Jordan is the greatest basketball player of all time"));
 
-  @Test
-  public void testComponent() throws Exception{
-    assertU("Add a doc to be ranked",
-        adoc("id",  "1234",
-            "details", "Michael Jordan is the greatest basketball player of all time"));
+		assertU("Add a doc to be ranked",
+				adoc("id", "1235", "details",
+						"Wayne Gretzky is the greatest hockey player of all time"));
 
-    assertU("Add a doc to be ranked",
-        adoc("id",  "1235",
-            "details", "Wayne Gretzky is the greatest hockey player of all time"));
+		assertU(commit());
+		// sanity check
+		assertQ("Couldn't find query",
+				req("q", "*:*", "defType", "lucene", "qa", "false"),
+				"//result[@numFound=2]", "//str[@name='id'][.='1235']");
+		assertQ("Couldn't find query",
+				req("q", "details:hockey", "defType", "lucene", "qa", "false"),
+				"//result[@numFound=1]", "//str[@name='id'][.='1235']");
+		assertQ("Couldn't find query",
+				req("Who is the greatest hockey player of all time?"),
+				"//result[@numFound=1]", "//str[@name='id'][.='1235']");
 
-    assertU(commit());
-    //sanity check
-    assertQ("Couldn't find query",
-        req("q", "*:*", "defType", "lucene", "qa", "false"), "//result[@numFound=2]", "//str[@name='id'][.='1235']");
-    assertQ("Couldn't find query",
-        req("q", "details:hockey", "defType", "lucene", "qa", "false"), "//result[@numFound=1]", "//str[@name='id'][.='1235']");
-    assertQ("Couldn't find query",
-        req("Who is the greatest hockey player of all time?"), "//result[@numFound=1]", "//str[@name='id'][.='1235']");
-
-
-  }
+	}
 
 }

@@ -26,30 +26,33 @@ import org.tartarus.snowball.ext.EnglishStemmer;
 
 public class SnowballStemmerTest extends TamingTextTestJ4 {
 
-  @Test
-  public void test() throws NoSuchMethodException {
-    //<start id="stemmer"/>
-    EnglishStemmer english = new EnglishStemmer();
+	@Test
+	public void test() throws NoSuchMethodException {
+		// <start id="stemmer"/>
+		EnglishStemmer english = new EnglishStemmer();
 
-    String[] test = {"bank", "banks", "banking", "banker", "banked", "bankers"};//<co id="stemmer.co.test"/>
-    String[] gold = {"bank", "bank", "bank", "banker", "bank", "banker"};//<co id="stemmer.co.gold"/>
-    for (int i = 0; i < test.length; i++) {
-      english.setCurrent(test[i]);//<co id="stemmer.co.set"/>
-      english.stem();//<co id="stemmer.co.stem"/>
-      System.out.println("English: " + english.getCurrent());
-      assertTrue(english.getCurrent() + " is not equal to " + gold[i], english.getCurrent().equals(gold[i]) == true);
-    }
-    /*
-<calloutlist>
-<callout arearefs="stemmer.co.test"><para>Setup some tokens to be stemmed</para></callout>
-<callout arearefs="stemmer.co.gold"><para>Define our expectations for results</para></callout>
-<callout arearefs="stemmer.co.set"><para>Tell the english what to stem</para></callout>
-<callout arearefs="stemmer.co.stem"><para>Do the stemming</para></callout>
-</calloutlist>
-    */
-    //<end id="stemmer"/>
+		String[] test = { "bank", "banks", "banking", "banker", "banked",
+				"bankers" };// <co id="stemmer.co.test"/>
+		String[] gold = { "bank", "bank", "bank", "banker", "bank", "banker" };// <co
+																				// id="stemmer.co.gold"/>
+		for (int i = 0; i < test.length; i++) {
+			english.setCurrent(test[i]);// <co id="stemmer.co.set"/>
+			english.stem();// <co id="stemmer.co.stem"/>
+			System.out.println("English: " + english.getCurrent());
+			assertTrue(english.getCurrent() + " is not equal to " + gold[i],
+					english.getCurrent().equals(gold[i]) == true);
+		}
+		/*
+		 * <calloutlist> <callout arearefs="stemmer.co.test"><para>Setup some
+		 * tokens to be stemmed</para></callout> <callout
+		 * arearefs="stemmer.co.gold"><para>Define our expectations for
+		 * results</para></callout> <callout
+		 * arearefs="stemmer.co.set"><para>Tell the english what to
+		 * stem</para></callout> <callout arearefs="stemmer.co.stem"><para>Do
+		 * the stemming</para></callout> </calloutlist>
+		 */
+		// <end id="stemmer"/>
 
-  }
-
+	}
 
 }

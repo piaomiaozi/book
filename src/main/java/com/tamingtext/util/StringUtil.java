@@ -18,17 +18,18 @@
  */
 
 package com.tamingtext.util;
+
 /**
  *
  *
  **/
 public class StringUtil {
 
-  public static String[] tokenizeWhitespace(String input) {
-    //<start id="whitespaceTokenizer"/>
-    String[] result = input.split("\\s+");
-    //<end id="whitespaceTokenizer"/>
-    return result;
+	public static String[] tokenizeWhitespace(String input) {
+		// <start id="whitespaceTokenizer"/>
+		String[] result = input.split("\\s+");
+		// <end id="whitespaceTokenizer"/>
+		return result;
 
-  }
+	}
 }

@@ -29,21 +29,21 @@ import com.tamingtext.util.SentenceDetectorFactory;
 
 public class SentenceTokenizerFactory extends BaseTokenizerFactory {
 
-  SentenceDetectorFactory sentenceDetectorFactory;
-  
-  @Override
-  public void init(Map<String,String> args) {
-    super.init(args);
-    
-    try {
-      sentenceDetectorFactory = new SentenceDetectorFactory(args);
-    }
-    catch (IOException e) {
-      throw (RuntimeException) new RuntimeException().initCause(e);
-    }
-  }
+	SentenceDetectorFactory sentenceDetectorFactory;
 
-  public SentenceTokenizer create(Reader input) {
-    return new SentenceTokenizer(input, sentenceDetectorFactory.getSentenceDetector());
-  }
+	@Override
+	public void init(Map<String, String> args) {
+		super.init(args);
+
+		try {
+			sentenceDetectorFactory = new SentenceDetectorFactory(args);
+		} catch (IOException e) {
+			throw (RuntimeException) new RuntimeException().initCause(e);
+		}
+	}
+
+	public SentenceTokenizer create(Reader input) {
+		return new SentenceTokenizer(input,
+				sentenceDetectorFactory.getSentenceDetector());
+	}
 }

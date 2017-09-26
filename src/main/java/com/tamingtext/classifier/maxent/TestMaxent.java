@@ -54,125 +54,139 @@ import org.slf4j.LoggerFactory;
 import com.tamingtext.util.FileUtil;
 
 public class TestMaxent {
-  
-  private static final Logger log = LoggerFactory.getLogger(TestMaxent.class);
-  
-  /**
-   * @param args
-   */
-  public static void main(String[] args) throws IOException {
-    DefaultOptionBuilder obuilder = new DefaultOptionBuilder();
-    ArgumentBuilder abuilder = new ArgumentBuilder();
-    GroupBuilder gbuilder = new GroupBuilder();
-    
-    Option helpOpt = DefaultOptionCreator.helpOption();
-    
-    Option inputDirOpt = obuilder.withLongName("input").withRequired(true).withArgument(
-      abuilder.withName("input").withMinimum(1).withMaximum(1).create()).withDescription(
-      "The input directory")
-        .withShortName("i").create();
-    
-    Option modelOpt = obuilder.withLongName("model").withRequired(true).withArgument(
-      abuilder.withName("index").withMinimum(1).withMaximum(1).create()).withDescription(
-      "The directory containing the index model").withShortName("m").create();
 
-    Group group = gbuilder.withName("Options").withOption(helpOpt)
-        .withOption(inputDirOpt).withOption(modelOpt).create();
-    
-    try {
-      Parser parser = new Parser();
-      
-      parser.setGroup(group);
-      parser.setHelpOption(helpOpt);
-      CommandLine cmdLine = parser.parse(args);
-      if (cmdLine.hasOption(helpOpt)) {
-        CommandLineUtil.printHelp(group);
-        return;
-      }
+	private static final Logger log = LoggerFactory.getLogger(TestMaxent.class);
 
-      String inputPath  = (String) cmdLine.getValue(inputDirOpt);
-      File f = new File(inputPath);
-      if (!f.isDirectory()) {
-        throw new IllegalArgumentException(f + " is not a directory or does not exit");
-      }
-      File[] inputFiles = FileUtil.buildFileList(f);
-      
-      File   modelDir  = new File((String) cmdLine.getValue(modelOpt));
-      execute(inputFiles, modelDir);
-    } catch (OptionException e) {
-      log.error("Error while parsing options", e);
-    }
-    
-  }
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) throws IOException {
+		DefaultOptionBuilder obuilder = new DefaultOptionBuilder();
+		ArgumentBuilder abuilder = new ArgumentBuilder();
+		GroupBuilder gbuilder = new GroupBuilder();
 
-  private static void execute(File[] inputFiles, File modelFile)
-      throws IOException, FileNotFoundException {
-    //<start id="maxent.examples.test.setup"/> 
-    NameFinderFeatureGenerator nffg //<co id="tmx.feature"/>
-      = new NameFinderFeatureGenerator(); 
-    BagOfWordsFeatureGenerator bowfg 
-      = new BagOfWordsFeatureGenerator(); 
+		Option helpOpt = DefaultOptionCreator.helpOption();
 
-    InputStream modelStream = //<co id="tmx.modelreader"/>
-        new FileInputStream(modelFile);
-    DoccatModel model = new DoccatModel(modelStream);
-    DocumentCategorizer categorizer //<co id="tmx.categorizer"/>
-      = new DocumentCategorizerME(model, nffg, bowfg);
-    Tokenizer tokenizer = SimpleTokenizer.INSTANCE;
-   
-    int catCount = categorizer.getNumberOfCategories();
-    Collection<String> categories 
-      = new ArrayList<String>(catCount);
-    for (int i=0; i < catCount; i++) {
-      categories.add(categorizer.getCategory(i));
-    }
-    ResultAnalyzer resultAnalyzer = //<co id="tmx.results"/>
-        new ResultAnalyzer(categories, "unknown");
-    runTest(inputFiles, categorizer, tokenizer, resultAnalyzer); //<co id="tmx.run"/>
-    /*<calloutlist>
-    <callout arearefs="tmx.feature">Setup Feature Generators</callout>
-    <callout arearefs="tmx.modelreader">Load Model</callout>
-    <callout arearefs="tmx.categorizer">Create Categorizer</callout>
-    <callout arearefs="tmx.results">Prepare Result Analyzer</callout>
-    <callout arearefs="tmx.run">Execute Test</callout>
-    </calloutlist>*/
-    //<end id="maxent.examples.test.setup"/>
-  }
+		Option inputDirOpt = obuilder
+				.withLongName("input")
+				.withRequired(true)
+				.withArgument(
+						abuilder.withName("input").withMinimum(1)
+								.withMaximum(1).create())
+				.withDescription("The input directory").withShortName("i")
+				.create();
 
-  private static void runTest(File[] inputFiles, 
-      DocumentCategorizer categorizer,
-      Tokenizer tokenizer, ResultAnalyzer resultAnalyzer)
-      throws FileNotFoundException, IOException {
-    String line;
-    //<start id="maxent.examples.test.execute"/>
-    for (File ff: inputFiles) { 
-      BufferedReader in = new BufferedReader(new FileReader(ff));
-      while ((line = in.readLine()) != null) { 
-        String[] parts = line.split("\t");
-        if (parts.length != 2) continue;
-        
-        String docText   = parts[1]; //<co id="tmt.preprocess"/>
-        String[] tokens  = tokenizer.tokenize(docText); 
-        
-        double[] probs   = categorizer.categorize(tokens); //<co id="tmt.categorize"/>
-        String label     = categorizer.getBestCategory(probs);
-        int    bestIndex = categorizer.getIndex(label);
-        double score     = probs[bestIndex];
+		Option modelOpt = obuilder
+				.withLongName("model")
+				.withRequired(true)
+				.withArgument(
+						abuilder.withName("index").withMinimum(1)
+								.withMaximum(1).create())
+				.withDescription("The directory containing the index model")
+				.withShortName("m").create();
 
-        ClassifierResult result //<co id="tmt.collect"/>
-          = new ClassifierResult(label, score);
-        resultAnalyzer.addInstance(parts[0], result);
-      }
-      in.close();
-    }
-    
-    System.err.println(resultAnalyzer.toString()); //<co id="tmt.summarize"/>
-    /*<calloutlist>
-     * <callout arearefs="tmt.preprocess">Preprocess text</callout>
-     * <callout arearefs="tmt.categorize">Categorize</callout>
-     * <callout arearefs="tmt.collect">Analyze Results</callout>
-     * <callout arearefs="tmt.summarize">Present Results</callout>
-     * </calloutlist>*/
-    //<end id="maxent.examples.test.execute"/>
-  }
+		Group group = gbuilder.withName("Options").withOption(helpOpt)
+				.withOption(inputDirOpt).withOption(modelOpt).create();
+
+		try {
+			Parser parser = new Parser();
+
+			parser.setGroup(group);
+			parser.setHelpOption(helpOpt);
+			CommandLine cmdLine = parser.parse(args);
+			if (cmdLine.hasOption(helpOpt)) {
+				CommandLineUtil.printHelp(group);
+				return;
+			}
+
+			String inputPath = (String) cmdLine.getValue(inputDirOpt);
+			File f = new File(inputPath);
+			if (!f.isDirectory()) {
+				throw new IllegalArgumentException(f
+						+ " is not a directory or does not exit");
+			}
+			File[] inputFiles = FileUtil.buildFileList(f);
+
+			File modelDir = new File((String) cmdLine.getValue(modelOpt));
+			execute(inputFiles, modelDir);
+		} catch (OptionException e) {
+			log.error("Error while parsing options", e);
+		}
+
+	}
+
+	private static void execute(File[] inputFiles, File modelFile)
+			throws IOException, FileNotFoundException {
+		// <start id="maxent.examples.test.setup"/>
+		NameFinderFeatureGenerator nffg // <co id="tmx.feature"/>
+		= new NameFinderFeatureGenerator();
+		BagOfWordsFeatureGenerator bowfg = new BagOfWordsFeatureGenerator();
+
+		InputStream modelStream = // <co id="tmx.modelreader"/>
+		new FileInputStream(modelFile);
+		DoccatModel model = new DoccatModel(modelStream);
+		DocumentCategorizer categorizer // <co id="tmx.categorizer"/>
+		= new DocumentCategorizerME(model, nffg, bowfg);
+		Tokenizer tokenizer = SimpleTokenizer.INSTANCE;
+
+		int catCount = categorizer.getNumberOfCategories();
+		Collection<String> categories = new ArrayList<String>(catCount);
+		for (int i = 0; i < catCount; i++) {
+			categories.add(categorizer.getCategory(i));
+		}
+		ResultAnalyzer resultAnalyzer = // <co id="tmx.results"/>
+		new ResultAnalyzer(categories, "unknown");
+		runTest(inputFiles, categorizer, tokenizer, resultAnalyzer); // <co
+																		// id="tmx.run"/>
+		/*
+		 * <calloutlist> <callout arearefs="tmx.feature">Setup Feature
+		 * Generators</callout> <callout arearefs="tmx.modelreader">Load
+		 * Model</callout> <callout arearefs="tmx.categorizer">Create
+		 * Categorizer</callout> <callout arearefs="tmx.results">Prepare Result
+		 * Analyzer</callout> <callout arearefs="tmx.run">Execute Test</callout>
+		 * </calloutlist>
+		 */
+		// <end id="maxent.examples.test.setup"/>
+	}
+
+	private static void runTest(File[] inputFiles,
+			DocumentCategorizer categorizer, Tokenizer tokenizer,
+			ResultAnalyzer resultAnalyzer) throws FileNotFoundException,
+			IOException {
+		String line;
+		// <start id="maxent.examples.test.execute"/>
+		for (File ff : inputFiles) {
+			BufferedReader in = new BufferedReader(new FileReader(ff));
+			while ((line = in.readLine()) != null) {
+				String[] parts = line.split("\t");
+				if (parts.length != 2)
+					continue;
+
+				String docText = parts[1]; // <co id="tmt.preprocess"/>
+				String[] tokens = tokenizer.tokenize(docText);
+
+				double[] probs = categorizer.categorize(tokens); // <co
+																	// id="tmt.categorize"/>
+				String label = categorizer.getBestCategory(probs);
+				int bestIndex = categorizer.getIndex(label);
+				double score = probs[bestIndex];
+
+				ClassifierResult result // <co id="tmt.collect"/>
+				= new ClassifierResult(label, score);
+				resultAnalyzer.addInstance(parts[0], result);
+			}
+			in.close();
+		}
+
+		System.err.println(resultAnalyzer.toString()); // <co
+														// id="tmt.summarize"/>
+		/*
+		 * <calloutlist> <callout arearefs="tmt.preprocess">Preprocess
+		 * text</callout> <callout
+		 * arearefs="tmt.categorize">Categorize</callout> <callout
+		 * arearefs="tmt.collect">Analyze Results</callout> <callout
+		 * arearefs="tmt.summarize">Present Results</callout> </calloutlist>
+		 */
+		// <end id="maxent.examples.test.execute"/>
+	}
 }

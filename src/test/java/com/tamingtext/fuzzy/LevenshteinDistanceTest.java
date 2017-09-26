@@ -19,7 +19,6 @@
 
 package com.tamingtext.fuzzy;
 
-
 import com.tamingtext.TamingTextTestJ4;
 import org.junit.Test;
 
@@ -28,19 +27,43 @@ import org.junit.Test;
  *
  **/
 public class LevenshteinDistanceTest extends TamingTextTestJ4 {
-  @Test
-  public void testLevenshtein() throws Exception {
-    LevenshteinDistance lev = new LevenshteinDistance();
-    assertEquals(0, lev.levenshteinDistance("zoo".toCharArray(), "zoo".toCharArray()));
-    assertEquals(1, lev.levenshteinDistance("zoo".toCharArray(), "zoom".toCharArray()));//insert
-    assertEquals(1, lev.levenshteinDistance("zoo".toCharArray(), "zo".toCharArray()));//delete
-    assertEquals(1, lev.levenshteinDistance("zoo".toCharArray(), "boo".toCharArray()));//substitute
-    assertEquals(2, lev.levenshteinDistance("zoo".toCharArray(), "boom".toCharArray()));//multiple
-    assertEquals(3, lev.levenshteinDistance("zoo".toCharArray(), "".toCharArray()));//compare to empty
-    assertEquals(3, lev.levenshteinDistance("".toCharArray(), "zoo".toCharArray()));//multiple
-    assertEquals(7, lev.levenshteinDistance("zoo".toCharArray(), "zoological".toCharArray()));//multiple
-    assertEquals(3, lev.levenshteinDistance("zoo".toCharArray(), "bed".toCharArray()));//multiple
+	@Test
+	public void testLevenshtein() throws Exception {
+		LevenshteinDistance lev = new LevenshteinDistance();
+		assertEquals(
+				0,
+				lev.levenshteinDistance("zoo".toCharArray(),
+						"zoo".toCharArray()));
+		assertEquals(
+				1,
+				lev.levenshteinDistance("zoo".toCharArray(),
+						"zoom".toCharArray()));// insert
+		assertEquals(1, lev.levenshteinDistance("zoo".toCharArray(),
+				"zo".toCharArray()));// delete
+		assertEquals(
+				1,
+				lev.levenshteinDistance("zoo".toCharArray(),
+						"boo".toCharArray()));// substitute
+		assertEquals(
+				2,
+				lev.levenshteinDistance("zoo".toCharArray(),
+						"boom".toCharArray()));// multiple
+		assertEquals(3,
+				lev.levenshteinDistance("zoo".toCharArray(), "".toCharArray()));// compare
+																				// to
+																				// empty
+		assertEquals(3,
+				lev.levenshteinDistance("".toCharArray(), "zoo".toCharArray()));// multiple
+		assertEquals(
+				7,
+				lev.levenshteinDistance("zoo".toCharArray(),
+						"zoological".toCharArray()));// multiple
+		assertEquals(
+				3,
+				lev.levenshteinDistance("zoo".toCharArray(),
+						"bed".toCharArray()));// multiple
 
-    assertEquals(2, lev.levenshteinDistance("taming text".toCharArray(), "tamming test".toCharArray()));//book example
-  }
+		assertEquals(2, lev.levenshteinDistance("taming text".toCharArray(),
+				"tamming test".toCharArray()));// book example
+	}
 }

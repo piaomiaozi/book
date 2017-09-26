@@ -24,10 +24,10 @@ package com.tamingtext.util;
  *
  **/
 public interface Constants {
-  public static final String SEARCH_RESULTS = "searchResults";
-  public static final String CURRENT_USER = "currentUser";
-  public static final String USER_SERVICE = "userService";
-  String LOGIN_ATTEMPT = "loginAttempt";
-  String USERNAME = "username";
-  String PASSWORD = "password";
+	public static final String SEARCH_RESULTS = "searchResults";
+	public static final String CURRENT_USER = "currentUser";
+	public static final String USER_SERVICE = "userService";
+	String LOGIN_ATTEMPT = "loginAttempt";
+	String USERNAME = "username";
+	String PASSWORD = "password";
 }

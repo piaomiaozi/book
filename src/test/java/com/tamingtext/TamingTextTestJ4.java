@@ -19,7 +19,6 @@
 
 package com.tamingtext;
 
-
 import junit.framework.Assert;
 import org.junit.BeforeClass;
 
@@ -30,59 +29,58 @@ import java.io.File;
  *
  **/
 public class TamingTextTestJ4 extends Assert {
-  @BeforeClass
-  public static void setUp() {
-    File models = new File("opennlp-models");
-    assertTrue(models.exists());
-    File wordnet = new File("WordNet-3.0");
-    assertTrue(wordnet.exists());
-    System.setProperty("model.dir", "opennlp-models");
-    System.setProperty("wordnet.dir", "WordNet-3.0");
-  }
+	@BeforeClass
+	public static void setUp() {
+		File models = new File("opennlp-models");
+		assertTrue(models.exists());
+		File wordnet = new File("WordNet-3.0");
+		assertTrue(wordnet.exists());
+		System.setProperty("model.dir", "opennlp-models");
+		System.setProperty("wordnet.dir", "WordNet-3.0");
+	}
 
-  public static File getWordNetDir(){
-    String wordnetDir = System.getProperty("wordnet.dir");
+	public static File getWordNetDir() {
+		String wordnetDir = System.getProperty("wordnet.dir");
 
-    return new File(wordnetDir);
-  }
+		return new File(wordnetDir);
+	}
 
-  public static File getWordNetDictionary(){
-    return new File(getWordNetDir(), "dict");
-  }
+	public static File getWordNetDictionary() {
+		return new File(getWordNetDir(), "dict");
+	}
 
-  public static File getModelDir(){
-    String modelsDirProp = System.getProperty("model.dir");
+	public static File getModelDir() {
+		String modelsDirProp = System.getProperty("model.dir");
 
-    return new File(modelsDirProp);
-  }
+		return new File(modelsDirProp);
+	}
 
-  //public static File getEnglishDir(){
-  //  return new File(getModelDir(), "english");
-  //}
+	// public static File getEnglishDir(){
+	// return new File(getModelDir(), "english");
+	// }
 
-  //public static File getNameFindDir(){
-  //  return new File(getModelDir(), "namefind");
-  //}
+	// public static File getNameFindDir(){
+	// return new File(getModelDir(), "namefind");
+	// }
 
-  //public static File getSentDetectDir(){
-  //  return new File(getModelDir(), "sentdetect");
-  //}
+	// public static File getSentDetectDir(){
+	// return new File(getModelDir(), "sentdetect");
+	// }
 
-  //public static File getChunkerDir(){
-  //  return new File(getModelDir(), "chunker");
-  //}
+	// public static File getChunkerDir(){
+	// return new File(getModelDir(), "chunker");
+	// }
 
-  //public static File getParserDir(){
-  //  return new File(getModelDir(), "parser");
-  //}
+	// public static File getParserDir(){
+	// return new File(getModelDir(), "parser");
+	// }
 
-  //public static File getPOSDir(){
-  //  return new File(getModelDir(), "postag");
-  //}
+	// public static File getPOSDir(){
+	// return new File(getModelDir(), "postag");
+	// }
 
-  public static File getPersonModel(){
-    return new File(getModelDir(), "en-ner-person.bin");
-  }
-
+	public static File getPersonModel() {
+		return new File(getModelDir(), "en-ner-person.bin");
+	}
 
 }

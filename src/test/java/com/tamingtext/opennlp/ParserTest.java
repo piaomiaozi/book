@@ -35,27 +35,26 @@ import com.tamingtext.TamingTextTestJ4;
 
 public class ParserTest extends TamingTextTestJ4 {
 
+	@Test
+	public void test() throws IOException {
 
-  @Test
-  public void test() throws IOException {
+		File modelDir = getModelDir();
+		// <start id="openParse"/>
+		File parserFile = new File(modelDir, "en-parser-chunking.bin");
+		FileInputStream parserStream = new FileInputStream(parserFile);
+		ParserModel model = new ParserModel(parserStream);
 
-    File modelDir = getModelDir();
-    //<start id="openParse"/>
-    File parserFile = new File(modelDir, "en-parser-chunking.bin");
-    FileInputStream parserStream = new FileInputStream(parserFile);
-    ParserModel model = new ParserModel(parserStream);
-    
-    Parser parser = ParserFactory.create(
-            model, 
-            20, // beam size 
-            0.95); // advance percentage
+		Parser parser = ParserFactory.create(model, 20, // beam size
+				0.95); // advance percentage
 
-    Parse[] results = ParserTool.parseLine("The Minnesota Twins , " +
-            "the 1991 World Series Champions , are currently in third place .",
-            parser, 3);
-    for (int i = 0; i < results.length; i++) {
-      results[i].show();
-    }
-    //<end id="openParse"/>
-  }
+		Parse[] results = ParserTool
+				.parseLine(
+						"The Minnesota Twins , "
+								+ "the 1991 World Series Champions , are currently in third place .",
+						parser, 3);
+		for (int i = 0; i < results.length; i++) {
+			results[i].show();
+		}
+		// <end id="openParse"/>
+	}
 }

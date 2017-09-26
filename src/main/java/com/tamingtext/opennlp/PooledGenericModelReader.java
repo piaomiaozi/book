@@ -29,72 +29,74 @@ import opennlp.model.DataReader;
 import opennlp.model.GenericModelReader;
 import opennlp.perceptron.PerceptronModelReader;
 
-/** A subclass of {@link opennlp.model.GenericModelReader} that 
- *  conserves memory by using delegate readers that call 
- *  <code>intern()</code> on the strings they read from their models.
- *  <p>
- *  The assumption here is that there is enough duplication in the strings in
- *  multiple models being loaded that we will benefit from maintaining a single
- *  copy of each string.
- */  
+/**
+ * A subclass of {@link opennlp.model.GenericModelReader} that conserves memory
+ * by using delegate readers that call <code>intern()</code> on the strings they
+ * read from their models.
+ * <p>
+ * The assumption here is that there is enough duplication in the strings in
+ * multiple models being loaded that we will benefit from maintaining a single
+ * copy of each string.
+ */
 public class PooledGenericModelReader extends GenericModelReader {
-  
-  private AbstractModelReader delegateModelReader;
-  
-  public PooledGenericModelReader(File f) throws IOException {
-    super(f);
-  }
-  
-  public PooledGenericModelReader(DataReader dataReader) {
-    super(dataReader);
-  }
 
-  @Override
-  public void checkModelType() throws IOException {
-    String modelType = readUTF();
-    if (modelType.equals("Perceptron")) {
-      delegateModelReader = new LocalPooledPerceptronModelReader(this.dataReader);
-    }
-    else if (modelType.equals("GIS")) {
-      delegateModelReader = new LocalPooledGISModelReader(this.dataReader);
-    }
-    else {
-      throw new IOException("Unknown model format: "+modelType);
-    }
-  }
-  
-  @Override
-  public AbstractModel constructModel() throws IOException {
-    return delegateModelReader.constructModel();
-  }
-  
-  /** Subclass of {@link opennlp.maxent.io.GISModelReader} that conserves
-   *  memory by calling <code>intern()</code> on the strings it reads from the
-   *  model it loads.
-   */
-  static class LocalPooledGISModelReader extends GISModelReader {
-    public LocalPooledGISModelReader(DataReader reader) {
-      super(reader);
-    }
+	private AbstractModelReader delegateModelReader;
 
-    @Override
-    public String readUTF() throws IOException {
-      return super.readUTF().intern();
-    }
-  }
-  
-  /** Subclass of {@link opennlp.perceptron.PerceptronModelReader} that conserves
-   *  memory by calling <code>intern()</code> on the strings it reads from the
-   *  model it loads.
-   */
-  static class LocalPooledPerceptronModelReader extends PerceptronModelReader {
-    public LocalPooledPerceptronModelReader(DataReader reader) {
-      super(reader);
-    }
+	public PooledGenericModelReader(File f) throws IOException {
+		super(f);
+	}
 
-    @Override
-    public String readUTF() throws IOException {
-      return super.readUTF().intern();
-    }
-  }
+	public PooledGenericModelReader(DataReader dataReader) {
+		super(dataReader);
+	}
+
+	@Override
+	public void checkModelType() throws IOException {
+		String modelType = readUTF();
+		if (modelType.equals("Perceptron")) {
+			delegateModelReader = new LocalPooledPerceptronModelReader(
+					this.dataReader);
+		} else if (modelType.equals("GIS")) {
+			delegateModelReader = new LocalPooledGISModelReader(this.dataReader);
+		} else {
+			throw new IOException("Unknown model format: " + modelType);
+		}
+	}
+
+	@Override
+	public AbstractModel constructModel() throws IOException {
+		return delegateModelReader.constructModel();
+	}
+
+	/**
+	 * Subclass of {@link opennlp.maxent.io.GISModelReader} that conserves
+	 * memory by calling <code>intern()</code> on the strings it reads from the
+	 * model it loads.
+	 */
+	static class LocalPooledGISModelReader extends GISModelReader {
+		public LocalPooledGISModelReader(DataReader reader) {
+			super(reader);
+		}
+
+		@Override
+		public String readUTF() throws IOException {
+			return super.readUTF().intern();
+		}
+	}
+
+	/**
+	 * Subclass of {@link opennlp.perceptron.PerceptronModelReader} that
+	 * conserves memory by calling <code>intern()</code> on the strings it reads
+	 * from the model it loads.
+	 */
+	static class LocalPooledPerceptronModelReader extends PerceptronModelReader {
+		public LocalPooledPerceptronModelReader(DataReader reader) {
+			super(reader);
+		}
+
+		@Override
+		public String readUTF() throws IOException {
+			return super.readUTF().intern();
+		}
+	}
 }

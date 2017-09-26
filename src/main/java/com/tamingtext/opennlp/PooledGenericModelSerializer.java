@@ -29,20 +29,22 @@ import opennlp.tools.util.InvalidFormatException;
 import opennlp.tools.util.model.ArtifactSerializer;
 import opennlp.tools.util.model.GenericModelSerializer;
 
-/** A variant of {@link opennlp.tools.util.model.GenericModelSerializer} that
- *  conserves memory by interning the strings read as a part of a model
- *  by using a {@link com.tamingtext.opennlp.PooledGenericModelReader} to read the model.
+/**
+ * A variant of {@link opennlp.tools.util.model.GenericModelSerializer} that
+ * conserves memory by interning the strings read as a part of a model by using
+ * a {@link com.tamingtext.opennlp.PooledGenericModelReader} to read the model.
  */
 public class PooledGenericModelSerializer extends GenericModelSerializer {
 
-  @Override
-  public AbstractModel create(InputStream in) throws IOException,
-      InvalidFormatException {
-    return new PooledGenericModelReader(new BinaryFileDataReader(in)).getModel();
-  }
-  
-  @SuppressWarnings("rawtypes")
-  public static void register(Map<String, ArtifactSerializer> factories) {
-    factories.put("model", new PooledGenericModelSerializer());
-   }
+	@Override
+	public AbstractModel create(InputStream in) throws IOException,
+			InvalidFormatException {
+		return new PooledGenericModelReader(new BinaryFileDataReader(in))
+				.getModel();
+	}
+
+	@SuppressWarnings("rawtypes")
+	public static void register(Map<String, ArtifactSerializer> factories) {
+		factories.put("model", new PooledGenericModelSerializer());
+	}
 }

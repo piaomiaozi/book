@@ -21,37 +21,42 @@ package com.tamingtext.fuzzy;
 
 public class LevenshteinDistance {
 
-  //<start id="ed-levenshtein"/>
-  public int levenshteinDistance(char s[], char t[]) {
-    int m = s.length;
-    int n = t.length;
-    int d[][] = new int[m+1][n+1]; //<co id="co.fuzzy.levenshtein.distance"/>
+	// <start id="ed-levenshtein"/>
+	public int levenshteinDistance(char s[], char t[]) {
+		int m = s.length;
+		int n = t.length;
+		int d[][] = new int[m + 1][n + 1]; // <co
+											// id="co.fuzzy.levenshtein.distance"/>
 
-    for (int i=0;i<=m;i++) //<co id="co.fuzzy.levenshtein.init1"/>
-      d[i][0] = i;
-    for (int j=0;j<=n;j++)
-      d[0][j] = j;
-    for (int j=1;j<=n;j++) {
-      for (int i=1;i<=m;i++) {
-        if (s[i-1] == t[j-1]) {
-          d[i][j] = d[i-1][j-1];//<co id="co.fuzzy.levenshtein.match"/>
-        } else {
-          d[i][j] = Math.min(Math.min(
-                  d[i-1][j] + 1, //<co id="co.fuzzy.levenshtein.insertion"/>
-                  d[i][j-1] + 1),
-                  d[i-1][j-1] + 1);
-        }
-      }
-    }
-    return d[m][n];
-  }
-  /*
-  <calloutlist>
-  <callout arearefs="co.fuzzy.levenshtein.distance"><para>Allocate the distance matrix.</para></callout>
-  <callout arearefs="co.fuzzy.levenshtein.init1"><para>Initialize an upper bound on distance.</para></callout>
-  <callout arearefs="co.fuzzy.levenshtein.match"><para>Cost is the same as the previous match.</para></callout>
-  <callout arearefs="co.fuzzy.levenshtein.insertion"><para>Cost is one for an insertion, deletion, or substitution.</para></callout>
-  </calloutlist>
-   */
-  //<end id="ed-levenshtein"/>
+		for (int i = 0; i <= m; i++)
+			// <co id="co.fuzzy.levenshtein.init1"/>
+			d[i][0] = i;
+		for (int j = 0; j <= n; j++)
+			d[0][j] = j;
+		for (int j = 1; j <= n; j++) {
+			for (int i = 1; i <= m; i++) {
+				if (s[i - 1] == t[j - 1]) {
+					d[i][j] = d[i - 1][j - 1];// <co
+												// id="co.fuzzy.levenshtein.match"/>
+				} else {
+					d[i][j] = Math.min(Math.min(d[i - 1][j] + 1, // <co
+																	// id="co.fuzzy.levenshtein.insertion"/>
+							d[i][j - 1] + 1), d[i - 1][j - 1] + 1);
+				}
+			}
+		}
+		return d[m][n];
+	}
+	/*
+	 * <calloutlist> <callout
+	 * arearefs="co.fuzzy.levenshtein.distance"><para>Allocate the distance
+	 * matrix.</para></callout> <callout
+	 * arearefs="co.fuzzy.levenshtein.init1"><para>Initialize an upper bound on
+	 * distance.</para></callout> <callout
+	 * arearefs="co.fuzzy.levenshtein.match"><para>Cost is the same as the
+	 * previous match.</para></callout> <callout
+	 * arearefs="co.fuzzy.levenshtein.insertion"><para>Cost is one for an
+	 * insertion, deletion, or substitution.</para></callout> </calloutlist>
+	 */
+	// <end id="ed-levenshtein"/>
 }

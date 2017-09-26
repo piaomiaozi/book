@@ -44,61 +44,61 @@ import com.tamingtext.qa.ChunkParser;
 
 public class AnswerTypeTest extends TamingTextTestJ4 {
 
+	@Test
+	public void test() throws IOException {
 
-  @Test
-  public void test() throws IOException {
+		File modelDir = getModelDir();
 
-    File modelDir = getModelDir();
+		AnswerTypeContextGenerator atcg = new AnswerTypeContextGenerator(
+				new File(getWordNetDictionary().getAbsolutePath()));
+		// <start id="answerType"/>
+		FileInputStream chunkerStream = new FileInputStream(new File(modelDir,
+				"en-chunker.bin"));
+		ChunkerModel chunkerModel = new ChunkerModel(chunkerStream);
+		ChunkerME chunker = new ChunkerME(chunkerModel);
+		FileInputStream posStream = new FileInputStream(new File(modelDir,
+				"en-pos-maxent.bin"));
+		POSModel posModel = new POSModel(posStream);
+		POSTaggerME tagger = new POSTaggerME(posModel);
+		Parser parser = new ChunkParser(chunker, tagger);
+		Parse[] results = ParserTool.parseLine(
+				"Who is the president of egypt ?", parser, 1);
+		String[] context = atcg.getContext(results[0]);
+		List<String> features = Arrays.asList(context);
+		assertTrue(features.contains("qw=who"));
+		assertTrue(features.contains("hw=president"));
+		assertTrue(features.contains("s=1740")); // entity
+		assertTrue(features.contains("s=7846")); // person
+		// <end id="answerType"/>
+	}
 
-    AnswerTypeContextGenerator atcg = new AnswerTypeContextGenerator(new File(getWordNetDictionary().getAbsolutePath()));
-    //<start id="answerType"/>
-    FileInputStream chunkerStream = new FileInputStream(
-        new File(modelDir,"en-chunker.bin"));
-    ChunkerModel chunkerModel = new ChunkerModel(chunkerStream);
-    ChunkerME chunker = new ChunkerME(chunkerModel);
-    FileInputStream posStream = new FileInputStream(
-        new File(modelDir,"en-pos-maxent.bin"));
-    POSModel posModel = new POSModel(posStream);
-    POSTaggerME tagger =  new POSTaggerME(posModel);
-    Parser parser = new ChunkParser(chunker, tagger);
-    Parse[] results = ParserTool.parseLine("Who is the president of egypt ?", parser, 1);
-    String[] context = atcg.getContext(results[0]);
-    List<String> features = Arrays.asList(context);
-    assertTrue(features.contains("qw=who"));
-    assertTrue(features.contains("hw=president"));
-    assertTrue(features.contains("s=1740")); //entity
-    assertTrue(features.contains("s=7846")); //person
-    //<end id="answerType"/>
-  }
-
-  @Test
-  public void demonstrateATCG() throws Exception {
-    File modelDir = getModelDir();
-    InputStream chunkerStream = new FileInputStream(
-            new File(modelDir,"en-chunker.bin"));
-    ChunkerModel chunkerModel = new ChunkerModel(chunkerStream);
-    ChunkerME chunker = new ChunkerME(chunkerModel);
-    InputStream posStream = new FileInputStream(
-            new File(modelDir,"en-pos-maxent.bin"));
-    POSModel posModel = new POSModel(posStream);
-    POSTaggerME tagger =  new POSTaggerME(posModel);
-    Parser parser = new ChunkParser(chunker, tagger);
-    //<start id="att.answerTypeDemo"/>
-    AnswerTypeContextGenerator atcg =
-            new AnswerTypeContextGenerator(
-                    new File(getWordNetDictionary().getAbsolutePath()));
-    InputStream is = Thread.currentThread().getContextClassLoader()
-            .getResourceAsStream("atcg-questions.txt");
-    assertNotNull("input stream", is);
-    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-    String line = null;
-    while ((line = reader.readLine()) != null){
-      System.out.println("Question: " + line);
-      Parse[] results = ParserTool.parseLine(line, parser, 1);
-      String[] context = atcg.getContext(results[0]);
-      List<String> features = Arrays.asList(context);
-      System.out.println("Features: " + features);
-    }
-    //<end id="att.answerTypeDemo"/>
-  }
+	@Test
+	public void demonstrateATCG() throws Exception {
+		File modelDir = getModelDir();
+		InputStream chunkerStream = new FileInputStream(new File(modelDir,
+				"en-chunker.bin"));
+		ChunkerModel chunkerModel = new ChunkerModel(chunkerStream);
+		ChunkerME chunker = new ChunkerME(chunkerModel);
+		InputStream posStream = new FileInputStream(new File(modelDir,
+				"en-pos-maxent.bin"));
+		POSModel posModel = new POSModel(posStream);
+		POSTaggerME tagger = new POSTaggerME(posModel);
+		Parser parser = new ChunkParser(chunker, tagger);
+		// <start id="att.answerTypeDemo"/>
+		AnswerTypeContextGenerator atcg = new AnswerTypeContextGenerator(
+				new File(getWordNetDictionary().getAbsolutePath()));
+		InputStream is = Thread.currentThread().getContextClassLoader()
+				.getResourceAsStream("atcg-questions.txt");
+		assertNotNull("input stream", is);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		String line = null;
+		while ((line = reader.readLine()) != null) {
+			System.out.println("Question: " + line);
+			Parse[] results = ParserTool.parseLine(line, parser, 1);
+			String[] context = atcg.getContext(results[0]);
+			List<String> features = Arrays.asList(context);
+			System.out.println("Features: " + features);
+		}
+		// <end id="att.answerTypeDemo"/>
+	}
 }

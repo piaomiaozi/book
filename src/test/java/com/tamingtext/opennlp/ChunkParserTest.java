@@ -38,28 +38,30 @@ import com.tamingtext.qa.ChunkParser;
 
 public class ChunkParserTest extends TamingTextTestJ4 {
 
-  @Test
-  public void test() throws IOException {
+	@Test
+	public void test() throws IOException {
 
-    File modelDir = getModelDir();
-    //<start id="openChunkParse"/>
-    FileInputStream chunkerStream = new FileInputStream(
-        new File(modelDir,"en-chunker.bin"));
-    ChunkerModel chunkerModel = new ChunkerModel(chunkerStream);
-    ChunkerME chunker = new ChunkerME(chunkerModel);
-    FileInputStream posStream = new FileInputStream(
-        new File(modelDir,"en-pos-maxent.bin"));
-    POSModel posModel = new POSModel(posStream);
-    POSTaggerME tagger =  new POSTaggerME(posModel);
-    Parser parser = new ChunkParser(chunker, tagger);
-    Parse[] results = ParserTool.parseLine("The Minnesota Twins , " +
-            "the 1991 World Series Champions , are currently in third place .",
-            parser, 1);
-    Parse p = results[0];
-    Parse[] chunks = p.getChildren();
-    assertTrue(chunks.length == 9);
-    assertTrue(chunks[0].getType().equals("NP"));
-    assertTrue(chunks[0].getHead().toString().equals("Twins"));
-    //<end id="openChunkParse"/>
-  }
+		File modelDir = getModelDir();
+		// <start id="openChunkParse"/>
+		FileInputStream chunkerStream = new FileInputStream(new File(modelDir,
+				"en-chunker.bin"));
+		ChunkerModel chunkerModel = new ChunkerModel(chunkerStream);
+		ChunkerME chunker = new ChunkerME(chunkerModel);
+		FileInputStream posStream = new FileInputStream(new File(modelDir,
+				"en-pos-maxent.bin"));
+		POSModel posModel = new POSModel(posStream);
+		POSTaggerME tagger = new POSTaggerME(posModel);
+		Parser parser = new ChunkParser(chunker, tagger);
+		Parse[] results = ParserTool
+				.parseLine(
+						"The Minnesota Twins , "
+								+ "the 1991 World Series Champions , are currently in third place .",
+						parser, 1);
+		Parse p = results[0];
+		Parse[] chunks = p.getChildren();
+		assertTrue(chunks.length == 9);
+		assertTrue(chunks[0].getType().equals("NP"));
+		assertTrue(chunks[0].getHead().toString().equals("Twins"));
+		// <end id="openChunkParse"/>
+	}
 }

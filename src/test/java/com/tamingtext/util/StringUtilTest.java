@@ -34,54 +34,72 @@ import org.junit.*;
 
 public class StringUtilTest extends TamingTextTestJ4 {
 
+	@Test
+	public void testWhitespace() throws Exception {
+		String[] gold = { "The", "Carolina", "Hurricanes", "won", "the",
+				"2006", "Stanley", "Cup." };
+		String[] result = StringUtil
+				.tokenizeWhitespace("The Carolina Hurricanes won the 2006 Stanley Cup.");
+		assertTrue("result Size: " + result.length + " is not: " + gold.length,
+				result.length == gold.length);
+		for (int i = 0; i < result.length; i++) {
+			assertTrue(result[i] + " is not equal to " + gold[i],
+					result[i].equals(gold[i]) == true);
 
+		}
 
-  @Test
-  public void testWhitespace() throws Exception {
-    String[] gold = {"The", "Carolina", "Hurricanes", "won", "the", "2006", "Stanley", "Cup."};
-    String[] result = StringUtil.tokenizeWhitespace("The Carolina Hurricanes won the 2006 Stanley Cup.");
-    assertTrue("result Size: " + result.length + " is not: " + gold.length, result.length == gold.length);
-    for (int i = 0; i < result.length; i++) {
-      assertTrue(result[i] + " is not equal to " + gold[i], result[i].equals(gold[i]) == true);
+	}
 
-    }
+	@Test
+	public void testLuceneStandardTokenizer() throws Exception {
+		String[] gold = { "I", "can't", "beleive", "that", "the", "Carolina",
+				"Hurricanes", "won", "the", "2005", "2006", "Stanley", "Cup", };
+		StandardTokenizer tokenizer = new StandardTokenizer(
+				Version.LUCENE_36,
+				new StringReader(
+						"I can't beleive that the Carolina Hurricanes won the 2005-2006 Stanley Cup."));
+		List<String> result = new ArrayList<String>();
+		while (tokenizer.incrementToken()) {
+			result.add(((CharTermAttribute) tokenizer
+					.getAttribute(CharTermAttribute.class)).toString());
+		}
+		assertTrue("result Size: " + result.size() + " is not: " + gold.length,
+				result.size() == gold.length);
+		int i = 0;
+		for (String chunk : result) {
+			assertTrue(chunk + " is not equal to " + gold[i],
+					chunk.equals(gold[i]) == true);
+			i++;
+		}
+	}
 
-  }
-  @Test
-  public void testLuceneStandardTokenizer() throws Exception {
-    String[] gold = {"I", "can't", "beleive", "that", "the", "Carolina", "Hurricanes", "won", "the", "2005", "2006", "Stanley", "Cup",};
-    StandardTokenizer tokenizer = new StandardTokenizer(Version.LUCENE_36, new StringReader("I can't beleive that the Carolina Hurricanes won the 2005-2006 Stanley Cup."));
-    List<String> result = new ArrayList<String>();
-    while (tokenizer.incrementToken()) {
-      result.add(((CharTermAttribute) tokenizer.getAttribute(CharTermAttribute.class)).toString());
-    }
-    assertTrue("result Size: " + result.size() + " is not: " + gold.length, result.size() == gold.length);
-    int i = 0;
-    for (String chunk : result) {
-      assertTrue(chunk + " is not equal to " + gold[i], chunk.equals(gold[i]) == true);
-      i++;
-    }
-  }
-  @Test
-  public void testVikings() throws Exception {
-    String[] gold = {"Last", "week", "the", "National", "Football", "League", "crowned", "a", "new", "Super", "Bowl", "Champion",
-            "Minnesota", "Vikings", "fans", "will", "take", "little", "solace", "in", "the", "fact", "that", "they",
-            "lost", "to", "the", "eventual", "champion", "in", "the", "playoffs"};
-    StandardTokenizer tokenizer = new StandardTokenizer(Version.LUCENE_36, new StringReader("Last week the National Football League crowned a new Super Bowl Champion." +
-            "  Minnesota Vikings fans will take little solace in the fact that they" +
-            " lost to the eventual champion in the playoffs."));
-    List<String> result = new ArrayList<String>();
-    while (tokenizer.incrementToken()) {
-      result.add(((CharTermAttribute) tokenizer.getAttribute(CharTermAttribute.class)).toString());
-    }
-    assertTrue("result Size: " + result.size() + " is not: " + gold.length, result.size() == gold.length);
-    int i = 0;
-    for (String chunk : result) {
-      System.out.println(chunk);
-      assertTrue(chunk + " is not equal to " + gold[i], chunk.equals(gold[i]) == true);
-      i++;
-    }
-  }
-
+	@Test
+	public void testVikings() throws Exception {
+		String[] gold = { "Last", "week", "the", "National", "Football",
+				"League", "crowned", "a", "new", "Super", "Bowl", "Champion",
+				"Minnesota", "Vikings", "fans", "will", "take", "little",
+				"solace", "in", "the", "fact", "that", "they", "lost", "to",
+				"the", "eventual", "champion", "in", "the", "playoffs" };
+		StandardTokenizer tokenizer = new StandardTokenizer(
+				Version.LUCENE_36,
+				new StringReader(
+						"Last week the National Football League crowned a new Super Bowl Champion."
+								+ "  Minnesota Vikings fans will take little solace in the fact that they"
+								+ " lost to the eventual champion in the playoffs."));
+		List<String> result = new ArrayList<String>();
+		while (tokenizer.incrementToken()) {
+			result.add(((CharTermAttribute) tokenizer
+					.getAttribute(CharTermAttribute.class)).toString());
+		}
+		assertTrue("result Size: " + result.size() + " is not: " + gold.length,
+				result.size() == gold.length);
+		int i = 0;
+		for (String chunk : result) {
+			System.out.println(chunk);
+			assertTrue(chunk + " is not equal to " + gold[i],
+					chunk.equals(gold[i]) == true);
+			i++;
+		}
+	}
 
 }

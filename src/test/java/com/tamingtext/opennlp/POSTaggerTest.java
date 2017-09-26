@@ -32,36 +32,40 @@ import org.junit.Test;
 import com.tamingtext.TamingTextTestJ4;
 
 /**
- * Place the OpenNLP English models (http://opennlp.sourceforge.net/models.html) in a directory and define the System property "models.dir" to point to that directory.
- * Alternatively, create a directory as a sibling of the Taming Text project named opennlp-tools-1.3.0 and place the models directory in there.
+ * Place the OpenNLP English models (http://opennlp.sourceforge.net/models.html)
+ * in a directory and define the System property "models.dir" to point to that
+ * directory. Alternatively, create a directory as a sibling of the Taming Text
+ * project named opennlp-tools-1.3.0 and place the models directory in there.
  */
 public class POSTaggerTest extends TamingTextTestJ4 {
 
-  @Test
-  public void test() throws IOException {
+	@Test
+	public void test() throws IOException {
 
-    //<start id="opennlpPOS"/>
-    File posModelFile = new File( //<co id="opennlpPOS.co.tagger"/>
-        getModelDir(), "en-pos-maxent.bin"); 
-    FileInputStream posModelStream = new FileInputStream(posModelFile);
-    POSModel model = new POSModel(posModelStream);
-    
-    POSTaggerME tagger = new POSTaggerME(model);
-    String[] words = SimpleTokenizer.INSTANCE.tokenize( //<co id="opennlpPOS.co.tokenize"/>
-        "The quick, red fox jumped over the lazy, brown dogs.");
-    String[] result = tagger.tag(words);//<co id="opennlpPOS.co.dotag"/>
-    for (int i=0 ; i < words.length; i++) {
-      System.err.print(words[i] + "/" + result[i] + " ");
-    }
-    System.err.println("\n");
-    /*
-<calloutlist>
-<callout arearefs="opennlpPOS.co.tagger"><para>Give the path to the POS Model</para></callout>
-<callout arearefs="opennlpPOS.co.tokenize"><para>Tokenize the sentence into words</para></callout>
-<callout arearefs="opennlpPOS.co.dotag"><para>Pass in a tokenized sentence to be tagged.</para></callout>
-</calloutlist>
-    */
+		// <start id="opennlpPOS"/>
+		File posModelFile = new File( // <co id="opennlpPOS.co.tagger"/>
+				getModelDir(), "en-pos-maxent.bin");
+		FileInputStream posModelStream = new FileInputStream(posModelFile);
+		POSModel model = new POSModel(posModelStream);
 
-    //<end id="opennlpPOS"/>
-  }
+		POSTaggerME tagger = new POSTaggerME(model);
+		String[] words = SimpleTokenizer.INSTANCE.tokenize( // <co
+															// id="opennlpPOS.co.tokenize"/>
+				"The quick, red fox jumped over the lazy, brown dogs.");
+		String[] result = tagger.tag(words);// <co id="opennlpPOS.co.dotag"/>
+		for (int i = 0; i < words.length; i++) {
+			System.err.print(words[i] + "/" + result[i] + " ");
+		}
+		System.err.println("\n");
+		/*
+		 * <calloutlist> <callout arearefs="opennlpPOS.co.tagger"><para>Give the
+		 * path to the POS Model</para></callout> <callout
+		 * arearefs="opennlpPOS.co.tokenize"><para>Tokenize the sentence into
+		 * words</para></callout> <callout
+		 * arearefs="opennlpPOS.co.dotag"><para>Pass in a tokenized sentence to
+		 * be tagged.</para></callout> </calloutlist>
+		 */
+
+		// <end id="opennlpPOS"/>
+	}
 }
